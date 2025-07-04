@@ -96,9 +96,11 @@ export default function ContentList({ ad, contentList: list, pagination, paginat
                 <Link
                   sx={{
                     wordWrap: 'break-word',
-                    fontWeight: (JSON.parse(localStorage.getItem('visitedPosts')) ?? []).includes(contentObject.id)
-                      ? 'normal'
-                      : 'semibold',
+                    fontWeight:
+                      typeof window !== 'undefined' &&
+                      (JSON.parse(localStorage.getItem('visitedPosts')) ?? []).includes(contentObject.id)
+                        ? 'normal'
+                        : 'semibold',
                   }}
                   href={`/${contentObject.owner_username}/${contentObject.slug}`}
                   onClick={() => {
