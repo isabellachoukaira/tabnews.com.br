@@ -85,7 +85,7 @@ export default function ContentList({ ad, contentList: list, pagination, paginat
                   },
                 },
               }}>
-              {contentObject.parent_id ? (
+              {contentObject.parent_id ? ( //
                 <Link
                   sx={{ wordWrap: 'break-word', fontStyle: 'italic', fontWeight: 'normal' }}
                   href={`/${contentObject.owner_username}/${contentObject.slug}`}>
@@ -93,7 +93,20 @@ export default function ContentList({ ad, contentList: list, pagination, paginat
                   {` "${contentObject.body}"`}
                 </Link>
               ) : (
-                <Link sx={{ wordWrap: 'break-word' }} href={`/${contentObject.owner_username}/${contentObject.slug}`}>
+                <Link
+                  sx={{
+                    wordWrap: 'break-word',
+                    fontWeight: (JSON.parse(localStorage.getItem('visitedPosts')) ?? []).includes(contentObject.id)
+                      ? 'normal'
+                      : 'semibold',
+                  }}
+                  href={`/${contentObject.owner_username}/${contentObject.slug}`}
+                  onClick={() => {
+                    const visited = JSON.parse(localStorage.getItem('visitedPosts')) ?? [];
+                    if (!visited.includes(contentObject.id)) {
+                      localStorage.setItem('visitedPosts', JSON.stringify([...visited, contentObject.id]));
+                    }
+                  }}>
                   {contentObject.title}
                 </Link>
               )}
